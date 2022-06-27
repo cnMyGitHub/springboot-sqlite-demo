@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="alone.juner.demo.sqlite.mapper.DataMapper">
+
+    <resultMap id="BaseResultMap" type="alone.juner.demo.sqlite.model.entity.Data">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="key" jdbcType="VARCHAR" property="key" />
+        <result column="value" jdbcType="VARCHAR" property="value" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="parent" jdbcType="VARCHAR" property="parent" />
+        <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+        <result column="c_group" jdbcType="VARCHAR" property="cGroup" />
+    </resultMap>
+
+    <sql id="Table_Name"> data </sql>
+
+    <sql id="All_Field_List">
+        id,
+        `key`, `value`, code, remark, parent,
+        n_number, n_score,
+        create_time, create_by, modify_time, modify_by,
+        c_mode, c_order, c_group, c_version,
+        is_delete, is_display,
+        expand1, expand2, expand3, expand4, expand5
+    </sql>
+
+    <sql id="Search_Match">
+        WHERE is_delete = 0
+            <if test="record.id != null ">
+                AND id = #{record.id, jdbcType=INTEGER}
+            </if>
+            <if test="record.key != null and record.key != ''">
+                AND `key` like "%" || #{record.key} || "%"
+            </if>
+            <if test="record.code != null and record.code != '' ">
+                AND code =  #{record.code,jdbcType=VARCHAR}
+            </if>
+            <if test="record.parent != null and record.parent != ''">
+                AND parent = #{record.parent}
+            </if>
+            <if test="record.cGroup != null and record.cGroup != ''">
+                AND `c_group` = #{record.cGroup,jdbcType=VARCHAR}
+            </if>
+    </sql>
+
+    <sql id="Search_Limit">
+        <if test="pager.page != null and pager.limit != null">
+            LIMIT #{pager.page} , #{pager.limit}
+        </if>
+    </sql>
+
+    <sql id="Search_Order">
+        <if test="pager.order == null">
+            ORDER BY key ASC
+        </if>
+        <if test="pager.order != null and pager.order == -1">
+            ORDER BY #{pager.filed} DESC
+        </if>
+        <if test="pager.order != null and pager.order == 1">
+            ORDER BY #{pager.filed} ASC
+        </if>
+    </sql>
+
+
+    <select id="search" resultType="alone.juner.demo.sqlite.model.entity.Data">
+        SELECT
+            id,
+            `key`, `value`, code, remark, parent,
+            create_time AS createTime, c_group AS cGroup
+        FROM <include refid="Table_Name"/>
+        <include refid="Search_Match"/>
+        <if test="pager != null">
+            <include refid="Search_Order"/>
+            <include refid="Search_Limit"/>
+        </if>
+    </select>
+
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(`id`)
+        FROM <include refid="Table_Name"/>
+        <include refid="Search_Match"/>
+    </select>
+
+    <insert id="create" parameterType="alone.juner.demo.sqlite.model.entity.Data"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO <include refid="Table_Name"/> (
+            `key`, `value`, code, remark, parent,
+            n_number, n_score
+            create_by, modify_by,
+            c_mode, c_order, c_group
+        ) VALUES (
+            #{record.key,jdbcType=VARCHAR},
+            #{record.value,jdbcType=VARCHAR},
+            #{record.code,jdbcType=VARCHAR},
+            #{record.remark,jdbcType=VARCHAR},
+            #{record.parent},
+            #{record.nNumber,jdbcType=DECIMAL},
+            #{record.nScore,jdbcType=DECIMAL},
+            #{record.createBy,jdbcType=VARCHAR},
+            #{record.modifyBy,jdbcType=VARCHAR},
+            #{record.cMode,jdbcType=VARCHAR},
+            #{record.cOrder,jdbcType=VARCHAR},
+            #{record.cGroup,jdbcType=VARCHAR}
+        );
+    </insert>
+
+    <sql id="Update_Base">
+        <if test=" record.key != null and record.key != ''">
+            `key` = #{record.key,jdbcType=VARCHAR},
+        </if>
+        <if test="record.value != null and record.value != ''">
+            `value` = #{record.value,jdbcType=VARCHAR},
+        </if>
+        <if test="record.code != null and record.code != ''">
+            `code` = #{record.code,jdbcType=VARCHAR},
+        </if>
+        <if test="record.remark != null and record.remark != ''">
+            `remark` = #{record.remark,jdbcType=VARCHAR},
+        </if>
+        <if test="record.parent != null and record.parent != ''">
+            `parent` = #{record.parent},
+        </if>
+        <if test="record.nNumber != null and record.nNumber != ''">
+            `n_number` =  #{record.nNumber},
+        </if>
+        <if test="record.nScore != null and record.nScore != ''">
+            `n_score` =  #{record.nScore},
+        </if>
+        <if test="record.cMode != null and record.cMode != ''">
+            `c_mode` =  #{record.cMode},
+        </if>
+        <if test="record.cOrder != null and record.cOrder != ''">
+            `c_order` =  #{record.cOrder},
+        </if>
+        <if test="record.cGroup != null and record.cGroup != ''">
+            `c_group` =  #{record.cGroup}
+        </if>
+    </sql>
+
+    <sql id="Update_JSON_Info">
+        <if test="record.cChildrenInfo != null and record.cChildrenInfo != ''">
+            `c_children_info` =  #{record.cChildrenInfo},
+        </if>
+        <if test="record.cExpandInfo != null and record.cExpandInfo != ''">
+            `c_expand_info` =  #{record.cExpandInfo},
+        </if>
+    </sql>
+
+    <sql id="Update_By">
+        <if test="record.createBy != null and record.createBy != ''">
+            `create_by` =  #{record.createBy},
+        </if>
+        <if test="record.modifyBy != null and record.modifyBy != ''">
+            `modify_by` =  #{record.modifyBy},
+        </if>
+        <if test="record.modifyTime != null and record.modifyTime != ''">
+            `modify_time` =  #{record.modifyTime},
+        </if>
+    </sql>
+
+    <sql id="Update_Switch">
+        <if test="record.isExpand != null and record.isExpand != ''">
+            `is_expand` =  #{record.isExpand}
+        </if>
+        <if test="record.isDelete != null and record.isDelete != ''">
+            `is_delete` =  #{record.isDelete}
+        </if>
+        <if test="record.isDisplay != null and record.isDisplay != ''">
+            `is_display` =  #{record.isDisplay}
+        </if>
+    </sql>
+
+    <sql id="Update_Expand">
+        <if test="record.expand1 != null and record.expand1 != ''">
+            `expand1` =  #{record.expand1}
+        </if>
+        <if test="record.expand2 != null and record.expand2 != ''">
+            `expand2` =  #{record.expand2}
+        </if>
+        <if test="record.expand3 != null and record.expand3 != ''">
+            `expand3` =  #{record.expand3}
+        </if>
+        <if test="record.expand4 != null and record.expand4 != ''">
+            `expand4` =  #{record.expand4}
+        </if>
+        <if test="record.expand5 != null and record.expand5 != ''">
+            `expand5` =  #{record.expand5}
+        </if>
+    </sql>
+
+    <update id="update" parameterType="alone.juner.demo.sqlite.model.entity.Data">
+        UPDATE <include refid="Table_Name"/>
+        <set>
+            <include refid="Update_Base"/>
+            <include refid="Update_JSON_Info"/>
+            <include refid="Update_By"/>
+            <include refid="Update_Switch"/>
+            <include refid="Update_Expand"/>
+        </set>
+        WHERE id = #{record.id}
+    </update>
+
+</mapper>

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @since JDK_1.8.0.271
  */
 @Controller
-@RequestMapping("/  ")
+@RequestMapping("/server")
 public class ShutdownController {
     @GetMapping("/destroy")
     public void destroy() {

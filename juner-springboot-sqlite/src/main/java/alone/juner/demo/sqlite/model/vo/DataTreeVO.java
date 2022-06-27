@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <h3></h3><hr/>
+ * <h3>响应参数数据</h3><hr/>
  *
  * @author Juner
  * @version 0.0.1
@@ -29,7 +29,7 @@ import java.util.Map;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties({})
-public class DataTree extends Data {
+public class DataTreeVO extends Data {
     /** 内容 */
     private List<String> context;
     /** 标签 */
