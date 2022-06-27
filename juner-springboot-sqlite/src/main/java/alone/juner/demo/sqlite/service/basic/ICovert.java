@@ -32,19 +32,19 @@ public interface ICovert<BO, Entity, VO> {
      */
     Entity toConvert(BO source);
 
-    /**
-     * Entity 批量转换为 VO类
-     * @param source List Entity
-     * @return List VO
-     */
-    List<VO> toConvertVOList(List<Entity> source);
+//    /**
+//     * Entity 批量转换为 VO类
+//     * @param source List Entity
+//     * @return List VO
+//     */
+//    List<VO> toConvertVOList(List<Entity> source);
 
-    /**
-     * TODO
-     * @param customer Entity
-     * @return VO
-     */
-    @InheritInverseConfiguration
-    VO fromCustomer(Entity customer);
+//    /**
+//     * TODO
+//     * @param customer Entity
+//     * @return VO
+//     */
+//    @InheritInverseConfiguration
+//    VO fromCustomer(Entity customer);
 
 }
