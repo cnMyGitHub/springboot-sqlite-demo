@@ -82,6 +82,12 @@
         <include refid="Search_Match"/>
     </select>
 
+    <select id="exist" resultType="java.lang.Long">
+        SELECT COUNT(`id`)
+        FROM <include refid="Table_Name"/>
+        WHERE id = #{record.id, jdbcType=INTEGER}
+    </select>
+
     <insert id="create" parameterType="alone.juner.demo.sqlite.model.entity.Data"
             useGeneratedKeys="true" keyProperty="id">
         INSERT INTO <include refid="Table_Name"/> (

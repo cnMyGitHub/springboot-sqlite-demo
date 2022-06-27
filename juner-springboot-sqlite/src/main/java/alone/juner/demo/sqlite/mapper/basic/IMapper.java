@@ -50,4 +50,11 @@ public interface IMapper<Entity, VO> {
      */
     Long count(@Param("record") Entity record, @Param("pager") PageHelper pageHelper);
 
+    /**
+     * 查找符合条件的个数
+     * @param id 查找的数据 ID
+     * @return 个数
+     */
+    Long exist(Long id);
+
 }

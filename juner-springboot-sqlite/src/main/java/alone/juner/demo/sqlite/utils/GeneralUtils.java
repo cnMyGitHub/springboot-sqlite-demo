@@ -1,6 +1,9 @@
 package alone.juner.demo.sqlite.utils;
 
+import alone.juner.demo.sqlite.utils.impl.GeneralJavaScript;
 import alone.juner.demo.sqlite.utils.impl.GeneralString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <h3>通用工具箱</h3><hr/>
@@ -12,8 +15,13 @@ import alone.juner.demo.sqlite.utils.impl.GeneralString;
  * @since JDK_1.8.0.271
  */
 public class GeneralUtils
-        implements GeneralString
+        implements
+                GeneralString,
+                GeneralJavaScript
 {
+
+    public static final Logger logger =
+            LoggerFactory.getLogger(GeneralUtils.class);
 
     private static final GeneralUtils GENERAL_UTILS = new GeneralUtils();
 

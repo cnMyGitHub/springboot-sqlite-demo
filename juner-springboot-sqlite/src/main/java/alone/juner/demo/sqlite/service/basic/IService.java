@@ -1,5 +1,6 @@
 package alone.juner.demo.sqlite.service.basic;
 
+import alone.juner.demo.sqlite.mapper.basic.IMapper;
 import alone.juner.demo.sqlite.model.basic.PageHelper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -62,6 +63,19 @@ public interface IService<BO, Entity, VO> {
         ObjectMapper objectMapper = new ObjectMapper();
         jsonString = objectMapper.writeValueAsString(content);
         return jsonString;
+    }
+
+    /**
+     * 检查是否存在该数据
+     * @param mapper 数据访问层 Mapper
+     * @param id 唯一 ID
+     * @param <T> 数据访问层 子类 Mapper
+     */
+    default <T extends IMapper> Long checkIsExist(T mapper, Long id) {
+        if(mapper.exist(id) == 0) {
+            throw new RuntimeException("数据不存在，请查证后再进行操作。");
+        }
+        return id;
     }
 
 }

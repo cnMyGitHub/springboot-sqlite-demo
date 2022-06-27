@@ -7,7 +7,7 @@ server:
 
 
 data:
-  file: jdbc:sqlite:E:/search-lib-625.db
+  file: jdbc:sqlite:E:/search-lib-627.db
 
 logging.level:
   alone.juner: DEBUG

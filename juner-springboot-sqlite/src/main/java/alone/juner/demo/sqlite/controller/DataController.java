@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * <h3></h3><hr/>
+ * <h3>数据控制器</h3><hr/>
  *
  * @author Juner
  * @version 0.0.1
