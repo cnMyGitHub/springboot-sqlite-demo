@@ -1,5 +1,6 @@
 package alone.juner.demo.sqlite.controller.basic;
 
+import io.swagger.annotations.Api;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @date 2022年06月26日 21:44 星期日
  * @since JDK_1.8.0.271
  */
+@Api(tags = "关机服务")
 @Controller
 @RequestMapping("/server")
 public class ShutdownController {

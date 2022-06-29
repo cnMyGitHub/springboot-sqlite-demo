@@ -1,10 +1,23 @@
 
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 server:
   port: 18080
   servlet:
     context-path: /
     session.timeout: 846000
 
+
+#配置swagger配置
+knife4j:
+  basic:
+    username: admin
+    password: 123
+    enable: true #开启认证
+  production: false #默认是false ,屏蔽所有Swagger的相关资源
+  enable: true #是否开启swagger
 
 data:
   file: jdbc:sqlite:E:/search-lib-627.db

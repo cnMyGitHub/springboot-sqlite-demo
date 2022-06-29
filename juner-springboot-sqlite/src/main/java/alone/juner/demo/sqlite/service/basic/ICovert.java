@@ -11,6 +11,7 @@ import java.util.List;
  * @version 0.0.1
  * @description
  *      使用方法： 继承并声明
+ *      -> @Mapper(mappingControl = DeepClone.class)
  *      -> ICovert INSTANCE = Mappers.getMapper({Object}.class);
  *      -> @Mapping(source = "orders", target = "orderItems")
  * @date 2022年06月27日 13:03 星期一
