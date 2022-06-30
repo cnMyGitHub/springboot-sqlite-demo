@@ -1,6 +1,7 @@
 package alone.juner.demo.sqlite.controller.basic;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/server")
 public class ShutdownController {
+    @ApiOperation(value = "关闭服务")
     @GetMapping("/destroy")
     public void destroy() {
         System.exit(-1);

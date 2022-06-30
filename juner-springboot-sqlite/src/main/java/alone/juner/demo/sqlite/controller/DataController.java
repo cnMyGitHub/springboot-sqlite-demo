@@ -7,10 +7,8 @@ import alone.juner.demo.sqlite.model.bo.DataBO;
 import alone.juner.demo.sqlite.service.DataService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import sun.reflect.generics.tree.Tree;
 
 /**
  * <h3>数据控制器</h3><hr/>
@@ -22,37 +20,41 @@ import sun.reflect.generics.tree.Tree;
  * @since JDK_1.8.0.271
  */
 @Api(tags = "主要数据")
-@Controller
+@RestController
 @RequestMapping("/")
 public class DataController {
 
     @Autowired private DataService service;
 
     @GetMapping("/")
+    @SuppressWarnings("rawtypes")
     public GlobalResponse success() {
         return GlobalResponse.success();
     }
 
 
-//    @GetMapping("/search/body")
-//    public GlobalResponse searchRequestBody(
-//            @RequestBody DataBO dataBO,
-//            @RequestBody PageHelper pageHelper
-//    ) {
-//        return GlobalResponse
-//                .of(service.search(dataBO, pageHelper));
-//    }
-//
-//    @GetMapping("/search")
-//    public GlobalResponse search(
-//            DataBO dataBO,
-//            PageHelper pageHelper
-//    ) {
-//        return GlobalResponse
-//                .of(service.search(dataBO, pageHelper));
-//    }
-//
+    @GetMapping("/search/body")
+    @SuppressWarnings("rawtypes")
+    public GlobalResponse searchRequestBody(
+            @RequestBody DataBO dataBO,
+            @RequestBody PageHelper pageHelper
+    ) {
+        return GlobalResponse
+                .of(service.search(dataBO, pageHelper));
+    }
+
+    @GetMapping("/search")
+    @SuppressWarnings("rawtypes")
+    public GlobalResponse search(
+            DataBO dataBO,
+            PageHelper pageHelper
+    ) {
+        return GlobalResponse
+                .of(service.search(dataBO, pageHelper));
+    }
+
     @GetMapping("/count")
+    @SuppressWarnings("rawtypes")
     public GlobalResponse count(
             DataBO dataBO,
             PageHelper pageHelper
@@ -62,28 +64,31 @@ public class DataController {
                 .setLimit(pageHelper.getLimit())
                 .setTotalCount(service.count(dataBO, pageHelper));
     }
-//
-//    @PostMapping("/save")
-//    public GlobalResponse create(
-//            @RequestBody DataBO dataBO
-//    ) {
-//        service.create(dataBO);
-//        return GlobalResponse.success();
-//    }
-//
-//    @PutMapping("/update")
-//    public GlobalResponse update(
-//            @RequestBody @Validated(Update.class) DataBO dataBO) {
-//        service.create(dataBO);
-//        return GlobalResponse.success();
-//    }
-//
-//    @DeleteMapping("/remove/{id}")
-//    public GlobalResponse delete(
-//            @PathVariable Long id
-//    ) {
-//        service.remove(id);
-//        return GlobalResponse.success();
-//    }
+
+    @PostMapping("/save")
+    @SuppressWarnings("rawtypes")
+    public GlobalResponse create(
+            @RequestBody DataBO dataBO
+    ) {
+        service.create(dataBO);
+        return GlobalResponse.success();
+    }
+
+    @PutMapping("/update")
+    @SuppressWarnings("rawtypes")
+    public GlobalResponse update(
+            @RequestBody @Validated(Update.class) DataBO dataBO) {
+        service.create(dataBO);
+        return GlobalResponse.success();
+    }
+
+    @DeleteMapping("/remove/{id}")
+    @SuppressWarnings("rawtypes")
+    public GlobalResponse delete(
+            @PathVariable Long id
+    ) {
+        service.remove(id);
+        return GlobalResponse.success();
+    }
 
 }
