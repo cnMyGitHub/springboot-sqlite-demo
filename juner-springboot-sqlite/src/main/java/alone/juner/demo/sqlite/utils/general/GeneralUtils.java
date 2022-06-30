@@ -1,7 +1,7 @@
-package alone.juner.demo.sqlite.utils;
+package alone.juner.demo.sqlite.utils.general;
 
-import alone.juner.demo.sqlite.utils.impl.GeneralJavaScript;
-import alone.juner.demo.sqlite.utils.impl.GeneralString;
+import alone.juner.demo.sqlite.utils.general.impl.GeneralJavaScript;
+import alone.juner.demo.sqlite.utils.general.impl.GeneralString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

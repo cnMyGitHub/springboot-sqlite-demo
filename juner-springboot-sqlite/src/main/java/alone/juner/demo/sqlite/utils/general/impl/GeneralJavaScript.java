@@ -1,7 +1,6 @@
-package alone.juner.demo.sqlite.utils.impl;
+package alone.juner.demo.sqlite.utils.general.impl;
 
-import alone.juner.demo.sqlite.utils.GeneralUtils;
-import lombok.extern.slf4j.Slf4j;
+import alone.juner.demo.sqlite.utils.general.GeneralUtils;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -10,10 +9,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PipedReader;
 import java.io.PipedWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * <h3>通用运行 Javascript 处理</h3><hr/>

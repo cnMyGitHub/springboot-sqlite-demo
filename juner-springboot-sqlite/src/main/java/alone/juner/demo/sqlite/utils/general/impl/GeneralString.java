@@ -1,4 +1,4 @@
-package alone.juner.demo.sqlite.utils.impl;
+package alone.juner.demo.sqlite.utils.general.impl;
 
 import java.util.ArrayList;
 import java.util.List;
