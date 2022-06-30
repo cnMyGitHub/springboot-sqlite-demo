@@ -20,10 +20,8 @@ public class Data
         extends ExpandInfo
 {
 
-    @NotNull(message = "主键不得为空", groups = Update.class)
     public Long id;
 
-    @NotEmpty(message = "key 不能为空")
     public String key;
     public String value;
     public String code;

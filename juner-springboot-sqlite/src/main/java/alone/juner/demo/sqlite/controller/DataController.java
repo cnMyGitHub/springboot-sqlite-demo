@@ -6,6 +6,8 @@ import alone.juner.demo.sqlite.model.basic.PageHelper;
 import alone.juner.demo.sqlite.model.bo.DataBO;
 import alone.juner.demo.sqlite.service.DataService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +27,6 @@ import org.springframework.web.bind.annotation.*;
 public class DataController {
 
     @Autowired private DataService service;
-
-    @GetMapping("/")
-    @SuppressWarnings("rawtypes")
-    public GlobalResponse success() {
-        return GlobalResponse.success();
-    }
-
 
     @GetMapping("/search/body")
     @SuppressWarnings("rawtypes")
@@ -82,6 +77,8 @@ public class DataController {
         return GlobalResponse.success();
     }
 
+    @ApiOperation("删除数据")
+    @ApiImplicitParam(name = "id", value = "数据ID", required = true, dataType = "Integer", paramType = "delete")
     @DeleteMapping("/remove/{id}")
     @SuppressWarnings("rawtypes")
     public GlobalResponse delete(

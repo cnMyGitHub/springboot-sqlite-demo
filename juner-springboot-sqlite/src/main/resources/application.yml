@@ -18,7 +18,9 @@ knife4j:
     enable: true #开启认证
   production: false #默认是false ,屏蔽所有Swagger的相关资源
   enable: true #是否开启swagger
-
+  setting:
+    # Knife4j默认显示中文(zh-CN),如果开发者想直接显示英文(en-US)，在通过该配置进行设置即可
+    language: zh-CN
 data:
   file: jdbc:sqlite:E:/search-lib-627.db
 
