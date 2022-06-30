@@ -28,7 +28,7 @@ public class GlobalExceptionAdvice {
     @SuppressWarnings("rawtypes")
     @ExceptionHandler(Exception.class)
     public GlobalResponse globalHandler(Exception e) {
-        log.error("Exception, exception:{}", e.getMessage(), e);
+        log.error("Exception, exception: {}", e.getMessage(), e);
         return GlobalResponse.error();
     }
 
@@ -42,7 +42,7 @@ public class GlobalExceptionAdvice {
     @SuppressWarnings("rawtypes")
     @ExceptionHandler(RuntimeException.class)
     public GlobalResponse runtimeExceptionHandler(RuntimeException e) {
-        log.error("RuntimeException, exception:{}", e.getMessage(), e);
+        log.error("RuntimeException, exception: {}", e.getMessage(), e);
         return GlobalResponse.error();
     }
 
@@ -54,7 +54,7 @@ public class GlobalExceptionAdvice {
     @SuppressWarnings("rawtypes")
     @ExceptionHandler(BusinessesException.class)
     public GlobalResponse operationException(BusinessesException e) {
-        log.error("BusinessesException, cdoe:{}， exception:{}", e.getCode(), e.getMessage());
+        log.error("BusinessesException, cdoe: {}， exception: {}", e.getCode(), e.getMessage());
         return GlobalResponse.error(e.getMessage());
     }
 
