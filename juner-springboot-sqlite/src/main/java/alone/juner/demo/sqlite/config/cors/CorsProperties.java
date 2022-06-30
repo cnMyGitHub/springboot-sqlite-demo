@@ -20,9 +20,9 @@ import org.springframework.stereotype.Component;
 @ToString
 @Component
 @ConfigurationProperties(
-        prefix = "free-reign.cors",
-        ignoreInvalidFields = true,
-        ignoreUnknownFields = false
+        prefix = "free-reign.cors"
+        ,ignoreInvalidFields = true
+        ,ignoreUnknownFields = false
 )
 public class CorsProperties {
     /** 允许跨域访问的路径 */
