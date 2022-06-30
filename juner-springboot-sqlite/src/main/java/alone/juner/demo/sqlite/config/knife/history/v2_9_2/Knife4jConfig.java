@@ -1,4 +1,4 @@
-//package alone.juner.demo.sqlite.config.knife.v2_9_2;
+//package alone.juner.demo.sqlite.config.knife.history.v2_9_2;
 //
 //import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 //import org.springframework.context.annotation.Bean;
