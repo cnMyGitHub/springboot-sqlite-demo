@@ -1,5 +1,6 @@
 package alone.juner.demo.sqlite;
 
+import alone.juner.demo.sqlite.application.impl.StartInfoServer;
 import alone.juner.demo.sqlite.application.listener.ApplicationCustomListener;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -26,35 +27,15 @@ import java.net.InetAddress;
 @EnableWebMvc
 @EnableAspectJAutoProxy
 @SpringBootApplication(exclude= DataSourceAutoConfiguration.class)
-public class Application {
+public class Application implements StartInfoServer {
 
     @SneakyThrows
     public static void main(String[] args) {
-
         SpringApplication application = new SpringApplication(Application.class);
-
         application.addListeners(new ApplicationCustomListener());
-
         ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
-
         Environment env = context.getEnvironment();
-
-        log.info("\n\t----------------------------------------------------------\n\t" +
-                        "Application '{}' is running! Access URLs:\n\t" +
-                        "Local: \t\thttp://localhost:{}\n\t" +
-                        "External: \thttp://{}:{}\n\t" +
-                        "----------------------------------------------------------",
-
-                // Application
-                env.getProperty("spring.application.name"),
-
-                // Local Port
-                env.getProperty("server.port"),
-
-                // External
-                InetAddress.getLocalHost().getHostAddress(),
-                env.getProperty("server.port")
-        );
+        StartInfoServer.message(env, log);
     }
 
 }
