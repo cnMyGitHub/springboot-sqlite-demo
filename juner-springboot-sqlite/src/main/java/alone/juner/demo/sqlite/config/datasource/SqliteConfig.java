@@ -2,6 +2,8 @@ package alone.juner.demo.sqlite.config.datasource;
 
 import alone.juner.demo.sqlite.config.sqlite.SqliteBuilder;
 import alone.juner.demo.sqlite.config.sqlite.SqliteGenerator;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -32,10 +34,12 @@ import java.sql.SQLException;
                 "alone.juner.demo.sqlite.mapper"
         }, sqlSessionFactoryRef = "sqlSessionFactory"
 )
+@Setter
+@Getter
 @Configuration
 public class SqliteConfig {
 
-    @Value("${data.file}")
+    @Value("${system.file}")
     private String dataSourceUrl;
 
     @Autowired

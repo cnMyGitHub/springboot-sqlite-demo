@@ -1,9 +1,14 @@
 package alone.juner.demo.sqlite.config.sqlite;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.ResourceUtils;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.core.io.Resource;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -23,8 +28,11 @@ import java.util.List;
  * @date 2022年06月26日 20:06 星期日
  * @since JDK_1.8.0.271
  */
+@Setter
+@Getter
 @Configuration
 public class SqliteGenerator {
+
     private static final Logger logger =
             LoggerFactory.getLogger(SqliteGenerator.class);
 
@@ -33,6 +41,9 @@ public class SqliteGenerator {
     private static final String THIS_DEBUG_PRE = "【debugger】 SqliteGenerator - ";
 
     private static final String TABLE_NAME = "data";
+
+    @Value("${system.script}")
+    private String script;
 
     /**
      * 获取文件所在路径
@@ -59,7 +70,7 @@ public class SqliteGenerator {
 
         File file = new File(filePath);
         File dir = file.getParentFile();
-        if(!dir.exists()){
+        if(dir != null && !dir.exists()){
             logger.debug("{} {}.", THIS_DEBUG_PRE, "准备创建文件夹");
             boolean folderStatus = dir.mkdirs();
             if(!folderStatus) {
@@ -92,10 +103,14 @@ public class SqliteGenerator {
         try {
             for(String str:sqls) {
                 connection.setAutoCommit(false);
+                // 可能出现的异常： The prepared statement has been finalized
                 connection.prepareStatement(str).execute();
             }
             connection.commit();
         } catch (SQLException e) {
+            if(e.getMessage().contains("The prepared statement has been finalized")) {
+                logger.error(sqls.toString());
+            }
             logger.error(e.getMessage(), e);
         }finally {
             try {
@@ -115,46 +130,85 @@ public class SqliteGenerator {
     private List<String> readScriptFile() {
         File file = null;
         try {
-            String script = "classpath:sql/init.sql";
-            file = ResourceUtils.getFile(script);
+            // 可能出现的异常: cannot be resolved to absolute file path because it does not reside in the file system
+            throw new FileNotFoundException("BOOT-INF/classes!");
+            // file = ResourceUtils.getFile(script);
         } catch (FileNotFoundException e) {
-            logger.error(e.getMessage(), e);
+            if(e.getMessage().contains("BOOT-INF/classes!")) {
+                logger.debug("{}, {}", "进行二次检查文件是否存在", script);
+
+                ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+                try {
+                    Resource[] resources = (Resource[]) resolver.getResources(script);
+                    Resource resource = resources[0];
+                    InputStream is = resource.getInputStream();
+                    InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
+                    return Arrays.asList(loopRead(isr).split(";"));
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+//                ClassPathResource resource = new ClassPathResource(script);
+//                if(!resource.exists()) {
+//                    logger.error(e.getMessage(), e);
+//                }
+//                try {
+//                    String stream = new String(IOUtils.toByteArray(resource.getInputStream()), StandardCharsets.UTF_8);
+//                    logger.debug("{}\n\t{}\n\t", "检查脚本如下：", stream);
+//                    return Arrays.asList(stream.split(";"));
+//                } catch (IOException ioException) {
+//                    logger.error(ioException.getMessage(), ioException);
+//                }
+            } else {
+                logger.error(e.getMessage(), e);
+            }
         }
         return getInitSql(file);
     }
 
+    private String loopRead(InputStreamReader isr) throws IOException {
+        BufferedReader bf = new BufferedReader(isr);
+        String content = "";
+        StringBuilder sb = new StringBuilder();
+        while(true) {
+            content = bf.readLine();
+            if (content == null) {
+                break;
+            }
+            if (content.contains("【tableName】")) {
+                content = content.replace("【tableName】", TABLE_NAME);
+            }
+            sb.append(content.trim());
+        }
+        bf.close();
+        return sb.toString();
+    }
     /**
      * 获取初始化 SQL 文
      * @return SQL文集
      */
     private List<String> getInitSql(File file) {
+        logger.info(file.getPath());
         String sql = "";
         FileInputStream fis = null;
         InputStreamReader isr = null;
         try {
-            fis = new FileInputStream(file);
-            isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
-            BufferedReader bf = new BufferedReader(isr);
-            String content = "";
-            StringBuilder sb = new StringBuilder();
-            while(true) {
-                content = bf.readLine();
-                if (content == null) {
-                    break;
-                }
-                if (content.contains("【tableName】")) {
-                    content = content.replace("【tableName】", TABLE_NAME);
-                }
-                sb.append(content.trim());
+            try{
+                fis = new FileInputStream(file);
+            }  catch (FileNotFoundException e) {
+                logger.error("{}: {}", e.getMessage(), file.getPath(), e);
             }
-            sql = sb.toString();
+            isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
+            sql = loopRead(isr);
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
         } finally {
             try {
-                assert isr != null;
-                isr.close();
-                fis.close();
+                if(isr != null) {
+                    isr.close();
+                }
+                if(fis != null) {
+                    fis.close();
+                }
             } catch (IOException e) {
                 logger.error(e.getMessage(), e);
             }
@@ -169,6 +223,7 @@ public class SqliteGenerator {
      */
     public void initTable(Connection connection){
         boolean hasDatabase = true, hasTable = true;
+
         try {
             PreparedStatement statement = connection.prepareStatement(QUERY_TABLE_INFOS);
             ResultSet resultSet = statement.executeQuery();
