@@ -18,16 +18,22 @@ import java.net.InetAddress;
 public interface StartInfoServer {
 
     @SneakyThrows
-    static void message(Environment env, Logger logger) {
-        logger.info("\n\t----------------------------------------------------------\n\t" +
-                        "Application '{}' is running! Access URLs:\n\t" +
-                        "Local: \t\thttp://localhost:{}\n\t" +
-                        "External: \thttp://{}:{}\n\t" +
-                        "Doc: \thttp://{}:{}/doc.html\n\t" +
-                        "----------------------------------------------------------",
+    static void message(String[] args, Environment env, Logger logger) {
+        String info = "\n\t----------------------------------------------------------\n\t";
+        if(args.length > 2) {
+            logger.info(info +" {}" + info + args);
+        }
+
+        logger.warn(info +
+                    " Application '{}' is running! Access URLs:\n\t" +
+                    " Local: \t\thttp://localhost:{}\n\t" +
+                    " External: \thttp://{}:{}\n\t" +
+                    " Doc: \thttp://{}:{}/doc.html\n\t" +
+                    " \t\t天地不仁，以万物为刍狗 " +
+                    info,
 
                 // Application
-                env.getProperty("spring.application.name"),
+                env.getProperty("spring.application.name") == null ? "data-server" : env.getProperty("spring.application.name"),
 
                 // Local Port
                 env.getProperty("server.port"),

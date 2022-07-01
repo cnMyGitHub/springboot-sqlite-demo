@@ -35,7 +35,7 @@ public class Application implements StartInfoServer {
         application.addListeners(new ApplicationCustomListener());
         ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
         Environment env = context.getEnvironment();
-        StartInfoServer.message(env, log);
+        StartInfoServer.message(args, env, log);
     }
 
 }
