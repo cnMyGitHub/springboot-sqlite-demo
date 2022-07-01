@@ -42,7 +42,7 @@ public class SqliteGenerator {
 
     private static final String TABLE_NAME = "data";
 
-    @Value("${system.script}")
+    @Value("${system.script: classpath:sql/init.sql}")
     private String script;
 
     /**

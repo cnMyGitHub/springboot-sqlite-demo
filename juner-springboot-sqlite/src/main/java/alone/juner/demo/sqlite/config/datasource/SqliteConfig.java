@@ -39,7 +39,7 @@ import java.sql.SQLException;
 @Configuration
 public class SqliteConfig {
 
-    @Value("${system.file}")
+    @Value("${system.file: jdbc:sqlite:search-lib.db}")
     private String dataSourceUrl;
 
     @Autowired
