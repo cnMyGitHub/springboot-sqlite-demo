@@ -21,8 +21,9 @@ knife4j:
   setting:
     # Knife4j默认显示中文(zh-CN),如果开发者想直接显示英文(en-US)，在通过该配置进行设置即可
     language: zh-CN
-data:
-  file: jdbc:sqlite:E:/search-lib-627.db
+system:
+  file: jdbc:sqlite:search-lib-627.db
+  script: classpath:sql/init.sql
 
 logging.level:
   alone.juner: DEBUG
