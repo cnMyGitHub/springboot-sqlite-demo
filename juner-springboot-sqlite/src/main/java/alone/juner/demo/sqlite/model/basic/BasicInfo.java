@@ -32,4 +32,14 @@ public class BasicInfo {
     @ApiModelProperty(value = "修改者")
     public String modifyBy;
 
+    @ApiModelProperty(value = "生效时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    public String validTime;
+
+    @ApiModelProperty(value = "失效时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    public String invalidTime;
+
 }

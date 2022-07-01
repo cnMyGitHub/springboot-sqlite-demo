@@ -24,18 +24,21 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 public class PageHelper {
 
-    @ApiModelProperty(value = "查询条数",name = "limit",
-            allowableValues = "32",
-            access = "1",
-            notes = "用户的id",
-            dataType = "int",
-            required = false,
-            position = 1,
-            hidden = true,
-            example = "1",
-            readOnly = false,
-            reference = "id",
-            allowEmptyValue = false)
+    @ApiModelProperty(
+            value = "查询条数",
+            name = "limit"
+//            ,allowableValues = "32",
+//            access = "1",
+//            notes = "用户的id",
+//            dataType = "int",
+//            required = false,
+//            position = 1,
+//            hidden = true,
+//            example = "1",
+//            readOnly = false,
+//            reference = "id",
+//            allowEmptyValue = false
+    )
     private Long limit;
     @ApiModelProperty(value = "分页号")
     private Long page;
@@ -53,14 +56,14 @@ public class PageHelper {
     private Byte order;
 
     public Number getPage() {
-        if(null != this.page){
+        if (null != this.page) {
             return (this.page - 1) * limit;
         }
         return null;
     }
 
     public Number getTotalPages() {
-        if(null != this.totalPages){
+        if (null != this.totalPages) {
             return this.totalPages % this.limit == 0
                     ? this.totalPages / this.limit
                     : (this.totalPages / this.limit) + 1;

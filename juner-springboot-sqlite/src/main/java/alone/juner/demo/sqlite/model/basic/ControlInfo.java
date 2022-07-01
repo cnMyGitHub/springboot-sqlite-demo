@@ -21,12 +21,16 @@ public class ControlInfo
         extends BasicInfo {
 
     @ApiModelProperty(value = "是否删除？")
-    @Size(min = 0, max = 1, message = "")
+    @Size(min = 0, max = 1, message = "参数异常")
     public Byte isDelete;
 
     @ApiModelProperty(value = "是否显示？")
-    @Min(value = 0,message = "最小为0")
-    @Max(value = 1,message = "最大为1")
+    @Min(value = 0, message = "最小为0")
+    @Max(value = 1, message = "最大为1")
     public Byte isDisplay;
+
+    @ApiModelProperty(value = "是否启用")
+    @Size(min = 0, max = 1, message = "参数异常")
+    public Byte isEnable;
 
 }

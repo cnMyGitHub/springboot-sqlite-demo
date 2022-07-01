@@ -25,6 +25,10 @@
         expand1, expand2, expand3, expand4, expand5
     </sql>
 
+    <sql id="Base_Enable_Status">
+        AND is_delete = 0 AND is_enable = 1
+    </sql>
+
     <sql id="Search_Match">
         WHERE is_delete = 0
             <if test="record.id != null ">

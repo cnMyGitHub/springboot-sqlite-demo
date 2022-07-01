@@ -27,10 +27,16 @@ public interface DefaultCheck<T> {
 
     /**
      * 获取自定义类型字段
+     *
+     * @param obj   数据
+     * @param check 注解
+     * @return 参数对
+     * @throws InvocationTargetException 调用目标异常
+     * @throws IllegalAccessException    非法访问异常
+     * @throws IntrospectionException    自省异常
      */
     default Map<String, String> getFieldValMap(Object obj, Check check)
-            throws InvocationTargetException, IllegalAccessException, IntrospectionException
-    {
+            throws InvocationTargetException, IllegalAccessException, IntrospectionException {
         HashMap<String, String> fieldValMap = new HashMap<>();
         Class<?> clz = obj.getClass();
         PropertyDescriptor field = new PropertyDescriptor(check.field(), clz);
@@ -40,9 +46,10 @@ public interface DefaultCheck<T> {
 
     /**
      * 重新添加错误提示语句
-     * @param check Check 对象
+     *
+     * @param check                      Check 对象
      * @param constraintValidatorContext 约束验证器上下文
-     * @param context 提示内容
+     * @param context                    提示内容
      */
     default void reconst(
             Check check,

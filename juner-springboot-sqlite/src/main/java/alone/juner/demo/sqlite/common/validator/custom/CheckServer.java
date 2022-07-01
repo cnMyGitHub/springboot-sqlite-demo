@@ -22,8 +22,7 @@ import java.util.regex.Pattern;
 @Slf4j
 public class CheckServer
         implements ConstraintValidator<Check, Object>,
-        DefaultCheck<Object>
-{
+        DefaultCheck<Object> {
 
     private Check check;
 
@@ -37,8 +36,8 @@ public class CheckServer
     @Override
     public boolean isValid(Object obj, ConstraintValidatorContext constraintValidatorContext) {
 
-        //禁用默认的message的值
-        constraintValidatorContext.disableDefaultConstraintViolation();
+//        //禁用默认的message的值
+//        constraintValidatorContext.disableDefaultConstraintViolation();
 
         log.error(obj.toString());
         log.error(constraintValidatorContext.getDefaultConstraintMessageTemplate());
@@ -47,19 +46,19 @@ public class CheckServer
         //获取字段值
         Map<String, String> valMap = getFieldValMap(obj, this.check);
 
-        if(preRequirementValid(valMap.get(check.field()))) {
+        if (preRequirementValid(valMap.get(check.field()))) {
             return true;
-        };
+        }
 
         log.error("检查对象不为空： ↓ ");
         log.error(obj.toString());
 
         //重新添加错误提示语句
-        reconst(check, constraintValidatorContext,
-                String.format(
-                        "%s 不符合(%s)格式要求",
-                        valMap.get("certNo"), "身份证"
-                ));
+//        reconst(check, constraintValidatorContext,
+//                String.format(
+//                        "%s 不符合(%s)格式要求",
+//                        valMap.get("certNo"), "身份证"
+//                ));
 
         return false;
     }
