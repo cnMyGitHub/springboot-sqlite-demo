@@ -12,13 +12,13 @@ import org.springframework.web.multipart.MultipartFile;
  * @date 2022年07月01日 18:34 星期五
  * @since JDK_1.8.0.271
  */
-public class FileUtils
+public class FileUtil
     implements FileConvertMultipartFile
 {
 
-    private final static FileUtils INSTANCE = new FileUtils();
+    private final static FileUtil INSTANCE = new FileUtil();
 
-    private static FileUtils getInstance() {
+    private static FileUtil getInstance() {
         return INSTANCE;
     }
 
