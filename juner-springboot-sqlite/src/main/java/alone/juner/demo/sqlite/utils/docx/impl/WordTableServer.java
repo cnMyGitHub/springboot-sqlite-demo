@@ -17,14 +17,17 @@ import java.util.Map;
  * <h3>Word 表格服务</h3><hr/>
  *
  * @author Juner
- * @version 0.0.1
+ * @version 0.0.36
  * @description 主要对象为 Word 表格对象
  * @date 2022年06月30日 13:24 星期四
  * @since JDK_1.8.0.271
  */
-public interface WordTableServer {
+public interface WordTableServer
+        extends WordInfo
+{
 
     String COPY_ROW_INDEX = "copyRowIndex";
+    String NEW_ROW_INDEX = "newRowIndex";
     String TABLE_INDEX = "tableIndex";
 
     /**
@@ -66,6 +69,8 @@ public interface WordTableServer {
         if (extendMap != null) {
             XWPFDocument document = new XWPFDocument(new FileInputStream(outputFilePath));
             FileOutputStream out = new FileOutputStream(outputFilePath);
+
+            params.putIfAbsent(NEW_ROW_INDEX, 0);
 
             insertNewRow(
                     document,
@@ -111,7 +116,7 @@ public interface WordTableServer {
         for (String k : extendMap.keySet()) {
             List<String> v = extendMap.get(k);
             if (k != null) {
-                copyNewRow(table, params.get(COPY_ROW_INDEX), (params.get(COPY_ROW_INDEX) + targetIndex));
+                copyNewRow(table, params.get(COPY_ROW_INDEX), (params.get(NEW_ROW_INDEX) + targetIndex));
                 XWPFTableRow row = table.getRow(targetIndex);
                 applySoftReturn(row, 0, ParagraphAlignment.CENTER, wordBreakUp(k), true);
                 if (v != null && v.size() > 0) {
@@ -187,10 +192,10 @@ public interface WordTableServer {
                 XWPFRun run = para.createRun();
                 run.setText(text.trim());
                 run.addBreak(BreakClear.ALL);
-                run.setFontFamily("宋体");
-                run.setFontSize(12);
+                run.setFontFamily(FONT_FAMILY);
+                run.setFontSize(FONT_SIZE);
                 if (colorFlag) {
-                    run.setColor("1F497D");
+                    run.setColor(FONT_COLOR_BLUE);
                 } else {
                     run.addCarriageReturn();
                     run.addCarriageReturn();

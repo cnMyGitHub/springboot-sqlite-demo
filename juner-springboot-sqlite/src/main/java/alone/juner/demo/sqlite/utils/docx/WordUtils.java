@@ -1,9 +1,13 @@
 package alone.juner.demo.sqlite.utils.docx;
 
+import alone.juner.demo.sqlite.utils.docx.impl.WordConvertToHtmlServer;
 import alone.juner.demo.sqlite.utils.docx.impl.WordTableServer;
+import alone.juner.demo.sqlite.utils.file.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -14,14 +18,15 @@ import java.util.Map;
  * <h3>Word 工具</h3><hr/>
  *
  * @author Juner
- * @version 0.0.35
+ * @version 0.0.37
  * @description
  * @date 2022年06月29日 14:07 星期三
  * @since JDK_1.8.0.271
  */
 @Slf4j
 public class WordUtils
-        implements WordTableServer
+        implements WordTableServer,
+        WordConvertToHtmlServer
 {
     private final static WordUtils INSTANCE = new WordUtils();
 
@@ -78,6 +83,14 @@ public class WordUtils
         params.put(TABLE_INDEX, 0);
 
         getInstance().extendData(outputPath, params, extendMap);
+    }
+
+    /**
+     * 将 docx 转为 html
+     * @param filePath 文件路径
+     */
+    public static void docxToHtml(String filePath) throws ParserConfigurationException, TransformerException, IOException {
+        getInstance().doConvertToHTML(FileUtil.getMultipartFile(filePath));
     }
 
 }
