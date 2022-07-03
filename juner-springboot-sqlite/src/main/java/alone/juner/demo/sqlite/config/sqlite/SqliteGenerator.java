@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.io.Resource;
+import org.springframework.util.ResourceUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -131,33 +132,21 @@ public class SqliteGenerator {
         File file = null;
         try {
             // 可能出现的异常: cannot be resolved to absolute file path because it does not reside in the file system
-            throw new FileNotFoundException("BOOT-INF/classes!");
-            // file = ResourceUtils.getFile(script);
+             file = ResourceUtils.getFile(script);
         } catch (FileNotFoundException e) {
             if(e.getMessage().contains("BOOT-INF/classes!")) {
                 logger.debug("{}, {}", "进行二次检查文件是否存在", script);
 
                 ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
                 try {
-                    Resource[] resources = (Resource[]) resolver.getResources(script);
+                    Resource[] resources = resolver.getResources(script);
                     Resource resource = resources[0];
                     InputStream is = resource.getInputStream();
                     InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
                     return Arrays.asList(loopRead(isr).split(";"));
                 } catch (IOException ioException) {
-                    ioException.printStackTrace();
+                    logger.error("{}, {}", "保险丝已被熔断", ioException.getMessage(), ioException);
                 }
-//                ClassPathResource resource = new ClassPathResource(script);
-//                if(!resource.exists()) {
-//                    logger.error(e.getMessage(), e);
-//                }
-//                try {
-//                    String stream = new String(IOUtils.toByteArray(resource.getInputStream()), StandardCharsets.UTF_8);
-//                    logger.debug("{}\n\t{}\n\t", "检查脚本如下：", stream);
-//                    return Arrays.asList(stream.split(";"));
-//                } catch (IOException ioException) {
-//                    logger.error(ioException.getMessage(), ioException);
-//                }
             } else {
                 logger.error(e.getMessage(), e);
             }
